@@ -1,5 +1,4 @@
-service:
-  name: mcf-node
+service: mcf-node
 
 plugins:
   - serverless-bundle
@@ -11,11 +10,23 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: ap-south-1
+  environment:
+    MCFNODE_BUCKET_NAME: ${self:custom.McfnodeBucket.name}
+  iamRoleStatements:
+    - ${file(iam/McfnodeBucketIAM.yml):McfnodeBucketIAM}
   
+resources:
+  Resources:
+    McfnodeBucket: ${file(resources/McfnodeBucket.yml):McfnodeBucket}
+    McfnodeBucketPolicy: ${file(resources/McfnodeBucket.yml):McfnodeBucketPolicy}
+
 functions:
-  test:
-    handler: src/handlers/test.handler
+  uploadjson:
+    handler: src/handlers/uploadjson.handler
     events:
       - http:
-          method: GET
-          path: /test
+          method: POST
+          path: /uploadjson
+custom:
+  McfnodeBucket:
+    name: mcfnode-bucket-${self:provider.stage}
