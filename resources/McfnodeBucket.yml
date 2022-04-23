@@ -1,0 +1,17 @@
+McfnodeBucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: ${self:custom.McfnodeBucket.name}
+
+McfnodeBucketPolicy:
+  Type: AWS::S3::BucketPolicy
+  Properties:
+    Bucket: !Ref McfnodeBucket
+    PolicyDocument:
+      Statement:
+        - Sid: PublicRead
+          Effect: Allow
+          Principal: '*'
+          Action:
+            - s3:GetObject
+          Resource: arn:aws:s3:::${self:custom.McfnodeBucket.name}/*
