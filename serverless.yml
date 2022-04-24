@@ -23,10 +23,12 @@ resources:
 functions:
   uploadjson:
     handler: src/handlers/uploadjson.handler
-    events:
-      - http:
-          method: POST
-          path: /uploadjson
+    # events:
+    #   - http:
+    #       method: POST
+    #       path: /uploadjson
 custom:
   McfnodeBucket:
     name: mcfnode-bucket-${self:provider.stage}
+  bundle:
+    linting: false
