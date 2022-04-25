@@ -21,12 +21,12 @@ resources:
     McfnodeBucketPolicy: ${file(resources/McfnodeBucket.yml):McfnodeBucketPolicy}
 
 functions:
-  uploadjson:
-    handler: src/handlers/uploadjson.handler
-    # events:
-    #   - http:
-    #       method: POST
-    #       path: /uploadjson
+  getjson:
+    handler: src/handlers/getjson.handler
+    events:
+      - http:
+          method: GET
+          path: /getjson
 custom:
   McfnodeBucket:
     name: mcfnode-bucket-${self:provider.stage}
